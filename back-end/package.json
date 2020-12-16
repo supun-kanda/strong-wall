@@ -1,0 +1,28 @@
+{
+  "name": "strong-wall-back-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supun-kanda/strong-wall.git"
+  },
+  "keywords": [
+    "authentication"
+  ],
+  "author": "Supun Kandambige",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/supun-kanda/strong-wall/issues"
+  },
+  "homepage": "https://github.com/supun-kanda/strong-wall#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "http-status-codes": "^2.1.4",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.5.1"
+  }
+}
