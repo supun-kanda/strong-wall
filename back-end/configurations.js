@@ -1,4 +1,9 @@
+const { randomBytes } = require('crypto');
+const secret = randomBytes(64).toString('hex');
+
 const environment = process.env.ENV;
+
+// environment: prod
 const prod = {
     DEDICATED: true,
     DB: {
@@ -9,8 +14,13 @@ const prod = {
         port: process.env.PGPORT || 5432,
     },
     PORT: process.env.PGPORT || 8080,
+    AUTH: {
+        SECRET: process.env.AUTH_SECRET || secret,
+        EXPIRES_IN: process.env.EXPIRES_IN || 1800,
+    },
 }
 
+// environment: local
 const nonPropd = {
     DEDICATED: false,
     DB: {
@@ -21,6 +31,10 @@ const nonPropd = {
         port: 5432,
     },
     PORT: 8080,
+    AUTH: {
+        SECRET: secret,
+        EXPIRES_IN: 1800, // in seconds
+    },
 }
 
 module.exports = environment === 'PROD' || environment === 'DEDICATED' ? prod : nonPropd;
