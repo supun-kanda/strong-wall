@@ -4,7 +4,7 @@ const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const bcrypt = require('bcrypt');
 
 const db = require('../db');
-const { VALIDATE_USER, INSERT_USER, GET_USER_DATA, UPDATE_LOGIN_STATE } = require('../constants/queries');
+const { VALIDATE_USER, INSERT_USER, GET_USER_CREDS, UPDATE_LOGIN_STATE } = require('../constants/queries');
 const { MESSAGES, ENDPOINTS } = require('../constants/constants');
 const { generateAuthToken, authMiddleWare } = require('../middleware');
 
@@ -48,7 +48,7 @@ router.post(`${ENDPOINTS.LOGIN}`, async (req, res) => {
     }
 
     try {
-        const userData = await db.query(GET_USER_DATA, [userKey]);
+        const userData = await db.query(GET_USER_CREDS, [userKey]);
         // user record not exists
         if (!userData || !userData.rows || !userData.rows.length) {
             return res.status(StatusCodes.UNAUTHORIZED).send(ReasonPhrases.UNAUTHORIZED)
@@ -62,25 +62,13 @@ router.post(`${ENDPOINTS.LOGIN}`, async (req, res) => {
             userId: userData.rows[0].user_id,
             userName: userData.rows[0].user_name,
         })
-        await db.query(UPDATE_LOGIN_STATE, [true, userData.rows[0].user_id]);
+        await db.query(UPDATE_LOGIN_STATE, [userData.rows[0].user_id]);
         return res.status(StatusCodes.OK).send({
             access_token: token,
         });
     } catch (err) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err);
     }
-});
-
-// logout
-router.post(`${ENDPOINTS.LOGOUT}`, async (req, res) => {
-    return authMiddleWare(req, res, async () => {
-        try {
-            await db.query(UPDATE_LOGIN_STATE, [false, req.user.userId])
-            return res.status(StatusCodes.OK).send(ReasonPhrases.OK);
-        } catch (err) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err);
-        }
-    })
 });
 
 module.exports = router
