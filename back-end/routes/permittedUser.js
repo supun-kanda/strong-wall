@@ -11,7 +11,7 @@ const { authMiddleWare } = require('../middleware');
 router.post(`${ENDPOINTS.LOGOUT}`, async (req, res) => {
     try {
         await db.query(UPDATE_LOGOUT_STATE, [req.user.userId])
-        return res.status(StatusCodes.OK).send(ReasonPhrases.OK);
+        return res.status(StatusCodes.OK).send({ message: ReasonPhrases.OK });
     } catch (err) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err);
     }
@@ -33,7 +33,7 @@ router.get(`${ENDPOINTS.USER_DATA}`, async (req, res) => {
                 lastLogin: userData[USER.LAST_LOGIN],
             });
         }
-        return res.status(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
+        return res.status(StatusCodes.NOT_FOUND).send({ message: ReasonPhrases.NOT_FOUND });
     } catch (err) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err);
     }

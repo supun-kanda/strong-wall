@@ -34,7 +34,7 @@ router.post(`${ENDPOINTS.CREATE}`, async (req, res) => {
     password = await bcrypt.hash(password, 10);
     try {
         await db.query(INSERT_USER, [userName, password, email]);
-        return res.status(StatusCodes.OK).send();
+        return res.status(StatusCodes.ACCEPTED).send({ message: ReasonPhrases.ACCEPTED });
     } catch (err) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err);
     }
@@ -51,11 +51,11 @@ router.post(`${ENDPOINTS.LOGIN}`, async (req, res) => {
         const userData = await db.query(GET_USER_CREDS, [userKey]);
         // user record not exists
         if (!userData || !userData.rows || !userData.rows.length) {
-            return res.status(StatusCodes.UNAUTHORIZED).send(ReasonPhrases.UNAUTHORIZED)
+            return res.status(StatusCodes.UNAUTHORIZED).send({ message: ReasonPhrases.UNAUTHORIZED })
         }
         // password not matching
         if (!await bcrypt.compare(password, userData.rows[0].password)) {
-            return res.status(StatusCodes.UNAUTHORIZED).send(ReasonPhrases.UNAUTHORIZED)
+            return res.status(StatusCodes.UNAUTHORIZED).send({ message: ReasonPhrases.UNAUTHORIZED })
         }
         // token generation
         const token = generateAuthToken({
@@ -63,7 +63,7 @@ router.post(`${ENDPOINTS.LOGIN}`, async (req, res) => {
             userName: userData.rows[0].user_name,
         })
         await db.query(UPDATE_LOGIN_STATE, [userData.rows[0].user_id]);
-        return res.status(StatusCodes.OK).send({
+        return res.status(StatusCodes.ACCEPTED).send({
             access_token: token,
         });
     } catch (err) {
