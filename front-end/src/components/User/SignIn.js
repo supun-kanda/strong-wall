@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import { login } from '../utils/auth';
+import { login } from '../../utils/auth';
 
-const SignIn = (props) => {
+const SignIn = props => {
     const [userKey, setUserKey] = useState(null);
     const [password, setPassword] = useState(null);
 
+    /**
+     * handle login event
+     * @param {Event} event event
+     */
     const handleLogin = event => {
         event.preventDefault();
         if (userKey && password) {
@@ -15,7 +19,7 @@ const SignIn = (props) => {
 
     return (
         <div>
-            <h1>Sign in</h1>
+            <h1>Sign In</h1>
             <form onSubmit={handleLogin}>
                 <label>
                     User Name:

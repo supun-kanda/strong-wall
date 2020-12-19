@@ -16,5 +16,10 @@ export default function request(endpoint, token, method, body) {
         options.body = JSON.stringify(body);
     }
     return fetch(configs.API_URL + endpoint, options)
-        .then(response => response.json())
+        .then(response => {
+            if (response.status >= 200 && response.status < 400) {
+                return response.json()
+            }
+            throw new Error(`Response status:${response.status}`);
+        });
 }
