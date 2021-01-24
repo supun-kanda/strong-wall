@@ -6,6 +6,7 @@ import Dashboard from './components/Dashboard';
 import UserPortal from './components/User/UserPortal';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
+import { URIs } from "./constants/constants";
 
 class App extends Component {
 
@@ -13,9 +14,9 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <PublicRoute restricted={false} component={Home} path="/" exact />
-          <PublicRoute restricted={true} component={UserPortal} path="/signin" exact />
-          <PrivateRoute component={Dashboard} path="/dashboard" exact />
+          <PublicRoute restricted={false} component={Home} path={URIs.HOME} exact />
+          <PublicRoute restricted={true} component={UserPortal} path={URIs.AUTH} exact />
+          <PrivateRoute component={Dashboard} path={URIs.DASHBOARD} exact />
         </Switch>
       </BrowserRouter>
     );

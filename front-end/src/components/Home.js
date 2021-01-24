@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { logout, isLogin } from '../utils/auth';
 import { Link } from 'react-router-dom';
+import { URIs } from "../constants/constants";
 
 export default function Home() {
     const [isLoggedIn, setLoggedIn] = useState(isLogin());
@@ -14,7 +15,7 @@ export default function Home() {
 
             {isLoggedIn ?
                 <button onClick={() => handleLogout()}>Click here to log out</button>
-                : <Link to="/signin">Go to sign in page</Link>
+                : <Link to={URIs.AUTH}>Go to sign in page</Link>
             }
         </div>
     );

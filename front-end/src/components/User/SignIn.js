@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { login } from '../../utils/auth';
+import { URIs } from "../../constants/constants";
 
 const SignIn = props => {
     const [userKey, setUserKey] = useState(null);
@@ -13,7 +14,7 @@ const SignIn = props => {
         event.preventDefault();
         if (userKey && password) {
             login({ userKey, password })
-                .then(() => props.history.push('/dashboard'));
+                .then(() => props.history.push(URIs.DASHBOARD));
         }
     }
 

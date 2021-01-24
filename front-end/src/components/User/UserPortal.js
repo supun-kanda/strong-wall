@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import '../../styles/styles.scss';
 
 const UserPortal = props => {
     const [isLoginShown, setLoginShown] = useState(true);
@@ -11,7 +12,7 @@ const UserPortal = props => {
      */
     const swapComponent = val => setLoginShown(val);
     return (
-        <div>
+        <div className='auth'>
             {isLoginShown ? <SignIn {...props} /> : <SignUp swap={swapComponent} {...props} />}
             <button
                 onClick={() => setLoginShown(!isLoginShown)}

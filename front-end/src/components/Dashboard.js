@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import request from "../utils/request";
 import { logout } from "../utils/auth";
-import { ENDPOINTS, TOKEN_KEY, METHODS } from "../constants/constants";
+import { ENDPOINTS, TOKEN_KEY, METHODS, URIs } from "../constants/constants";
 
 const Dashboard = props => {
     const [userData, setUserData] = useState({});
 
     const handleLogout = () =>
         logout()
-            .finally(() => props.history.push('/signIn'));
+            .finally(() => props.history.push(URIs.AUTH));
 
     // Reference: https://reactjs.org/docs/hooks-effect.html
     useEffect(() => {
